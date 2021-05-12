@@ -1,34 +1,15 @@
 import * as React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
 import { RootState } from '@App/store/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
-import Title from '@App/components/Title';
+import GlobalStyle from '@App/components/app/Global.style';
+import AppStyle from '@App/components/app/App.style';
+import TitleStyle from '@App/components/Title.style';
 
-interface AppProps {
+interface AppProps {}
 
-}
-
-interface AppState {
-
-}
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    height: 100vh;
-    background-color: #F9F9F9;
-    > div {
-      height: 100%;
-    }
-  }
-`;
-
-const AppContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-`;
+interface AppState {}
 
 class App extends React.Component<AppProps, AppState> {
   public constructor(props: AppProps) {
@@ -39,9 +20,9 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <>
         <GlobalStyle />
-        <AppContainer>
-          <Title>How are they?</Title>
-        </AppContainer>
+        <AppStyle>
+          <TitleStyle>How are they?</TitleStyle>
+        </AppStyle>
       </>
     );
   }
