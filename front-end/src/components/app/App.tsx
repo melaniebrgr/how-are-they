@@ -5,10 +5,6 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 
 import Title from '@App/components/Title';
-import Logo from '@App/components/Logo';
-import SubTitle from '@App/components/SubTitle';
-
-const LogoUrl = require('../../assets/images/logo-birdie.svg');
 
 interface AppProps {
 
@@ -32,9 +28,6 @@ const AppContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 `;
 
 class App extends React.Component<AppProps, AppState> {
@@ -47,9 +40,7 @@ class App extends React.Component<AppProps, AppState> {
       <>
         <GlobalStyle />
         <AppContainer>
-          <Logo src={LogoUrl} />
-          <Title>Welcome to the birdie test</Title>
-          <SubTitle>Best of luck!</SubTitle>
+          <Title>How are they?</Title>
         </AppContainer>
       </>
     );
