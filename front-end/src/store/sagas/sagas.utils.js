@@ -1,8 +1,8 @@
 import { call, cancelled, select, put } from 'redux-saga/effects';
 
-import { REQUEST } from '@App/store/actions';
+import { REQUEST } from '@App/store/actions/actions.constants';
 
-const createAsyncAction = (service, action) => (function* (...args) {
+function* createAsyncSequence(action, service, ...args) {
   yield put({ type: REQUEST.START, action });
   try {
     const payload = yield call(service, ...args);
@@ -14,6 +14,4 @@ const createAsyncAction = (service, action) => (function* (...args) {
       return yield put({ type: REQUEST.CANCEL, action });
     }
   }
-})
-
-export default createAsyncAction;
+}
