@@ -2,7 +2,7 @@ import { applyMiddleware, compose, createStore, GenericStoreEnhancer } from 'red
 import createSagaMiddleware from 'redux-saga';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { rootReducer } from '@App/store/reducers';
-import initSaga from '@App/store/sagas';
+import initSaga from '@App/store/sagas/sagas';
 
 declare global {
   interface Window {
