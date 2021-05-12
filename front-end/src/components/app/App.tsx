@@ -5,7 +5,8 @@ import { Dispatch } from 'redux';
 
 import GlobalStyle from '@App/components/app/Global.style';
 import AppStyle from '@App/components/app/App.style';
-import TitleStyle from '@App/components/Title.style';
+import TitleStyle from '@App/components/common/Title.style';
+import WeekPresenter from '@App/components/week-presenter/WeekPresenter';
 
 interface AppProps {}
 
@@ -22,6 +23,7 @@ class App extends React.Component<AppProps, AppState> {
         <GlobalStyle />
         <AppStyle>
           <TitleStyle>How are they?</TitleStyle>
+          <WeekPresenter />
         </AppStyle>
       </>
     );
