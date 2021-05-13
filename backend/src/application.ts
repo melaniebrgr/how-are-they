@@ -1,8 +1,9 @@
 import * as express from "express";
-import {pingController} from "./controllers/ping";
+
+import {healthRouter} from "./domains/health/health.router"
 
 const app = express();
 
-app.use(pingController);
+app.use("/health", healthRouter)
 
 export default app;
