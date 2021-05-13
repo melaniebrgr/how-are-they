@@ -1,29 +1,16 @@
 import * as React from 'react';
-import { RootState } from '@App/store/reducers';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { format } from 'date-fns';
 
-interface EventProps {}
+import EventStyle from '@App/components/week-presenter/event/Event.style';
+import { Medication } from '@App/domains/medication/medication.types';
 
-interface EventState {}
+const Event = (props: Medication) => {
+  return (
+    <EventStyle>
+      <span>✅</span>
+      <span>{`Taken at ${format(new Date(props.timestamp), 'MM/dd/yyyy')}`}</span>
+    </EventStyle>
+  );
+};
 
-class Event extends React.Component<EventProps, EventState> {
-  public constructor(props: EventProps) {
-    super(props);
-  }
-
-  public render() {
-    return (
-      <div>
-        <span>🧑‍⚕️</span>
-        <span>taken</span>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state: RootState, ownProps: object) => {};
-
-const mapDispatchToProps = (dispatch: Dispatch<RootState>) => {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Event);
+export default Event;

@@ -9,9 +9,11 @@ import DayStyle from '@App/components/week-presenter/Day.style';
 import Event from '@App/components/week-presenter/event/Event';
 import { selectWeekPresenter } from '@App/components/week-presenter/week-presenter.selecters.js';
 
+import { Medication } from '@App/domains/medication/medication.types';
 interface WeekPresenterProps {
   medicationRequested: typeof medicationRequested;
-  week: any;
+  week: Medication[][];
+  hasEvents: boolean;
 }
 
 interface WeekPresenterState {}
@@ -26,19 +28,24 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
   }
 
   public render() {
-    const { week } = this.props;
+    const { week, hasEvents } = this.props;
     return (
       <>
         <SubtitleStyle>Medication</SubtitleStyle>
-        <WeekStyle>
-          {week.map((day: any, i: number) => {
-            return (
-              <DayStyle key={i}>
-                {day.map((obs: any) => (<Event key={obs.id} {...obs} />))}
-              </DayStyle>
-            );
-          })}
-        </WeekStyle>
+        {hasEvents
+          ? (<WeekStyle>
+              {week.map((day: Medication[], i: number) => {
+                return (
+                  <DayStyle key={i}>
+                    {day.map((medication: Medication) => (<Event key={medication.id} {...medication} />))}
+                  </DayStyle>
+                );
+              })}
+            </WeekStyle>)
+          : <p>No data in range.</p>
+
+        }
+
       </>
     );
   }
