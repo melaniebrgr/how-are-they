@@ -1,15 +1,6 @@
-import { SagaIterator } from '@redux-saga/types';
-import { all, fork, takeEvery } from 'redux-saga/effects';
+import { all, fork } from 'redux-saga/effects';
 
-import { MEDICATION } from '@App/store/actions/actions.constants';
-
-function* handleMedicationRequested(): SagaIterator {
-  return;
-}
-
-function* watchMedicationRequested(): SagaIterator {
-  yield takeEvery(MEDICATION.REQUESTED, handleMedicationRequested);
-}
+import { watchMedicationRequested } from '@App/domains/medication/medication.sagas';
 
 function* initSaga() {
   yield all([

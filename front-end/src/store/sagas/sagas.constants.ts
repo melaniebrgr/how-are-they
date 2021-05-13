@@ -4,7 +4,3 @@ export const REQUEST = {
   ERROR: 'request/error',
   CANCEL: 'request/cancel'
 };
-
-export const MEDICATION = {
-  REQUESTED: 'medication/requested'
-};

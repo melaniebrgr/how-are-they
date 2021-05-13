@@ -6,7 +6,7 @@ import SubtitleStyle from '@App/components/common/Subtitle.style';
 import WeekStyle from '@App/components/week-presenter/Week.style';
 import DayStyle from '@App/components/week-presenter/Day.style';
 import Event from '@App/components/week-presenter/event/Event';
-import { medicationRequested } from '@App/store/actions/actions.js';
+import { medicationRequested } from '@App/domains/medication/medication.actions.js';
 
 interface WeekPresenterProps {
   medicationRequested: typeof medicationRequested;
