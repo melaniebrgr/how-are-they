@@ -1,6 +1,6 @@
 import { call, cancelled, select, put } from 'redux-saga/effects';
 
-import { REQUEST } from '@App/store/sagas/sagas.constants';
+import { createAsyncActionTypes } from '@App/store/actions/actions.utils.js';
 
 export const createService = (loader, transform = x => x, validator = x => true) => 
   (...args) => 
@@ -15,15 +15,16 @@ export const createService = (loader, transform = x => x, validator = x => true)
       );
 
 export const createAsyncSequence = (service) => (function*(request, ...args) {
-  yield put({ type: REQUEST.START, request });
+  const { pending, success, error, cancel } = createAsyncActionTypes(request.type);
+  yield put({ type: pending });
   try {
     const payload = yield call(service, ...args);
-    return yield put({ type: REQUEST.SUCCESS, request, payload });
+    return yield put({ type: success, request, payload });
   } catch (error) {
-    return yield put({ type: REQUEST.ERROR, request, error });
+    return yield put({ type: error, request, error });
   } finally {
     if (yield cancelled()) {
-      return yield put({ type: REQUEST.CANCEL, request });
+      return yield put({ type: cancel, request });
     }
   }
 });
