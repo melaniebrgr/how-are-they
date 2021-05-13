@@ -2,14 +2,16 @@ import * as React from 'react';
 import { RootState } from '@App/store/reducers';
 import { connect } from 'react-redux';
 
+import { medicationRequested } from '@App/domains/medication/medication.actions.js';
 import SubtitleStyle from '@App/components/common/Subtitle.style';
 import WeekStyle from '@App/components/week-presenter/Week.style';
 import DayStyle from '@App/components/week-presenter/Day.style';
 import Event from '@App/components/week-presenter/event/Event';
-import { medicationRequested } from '@App/domains/medication/medication.actions.js';
+import { selectWeekPresenter } from '@App/components/week-presenter/week-presenter.selecters.js';
 
 interface WeekPresenterProps {
   medicationRequested: typeof medicationRequested;
+  week: any;
 }
 
 interface WeekPresenterState {}
@@ -24,21 +26,20 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
   }
 
   public render() {
+    const { week } = this.props;
+    
     return (
       <>
         <SubtitleStyle>Medication</SubtitleStyle>
         <WeekStyle>
           <DayStyle>
-            <Event />
-            <Event />
+            {week.monday.map((day: any) => (<Event {...day} />))}
           </DayStyle>
           <DayStyle />
           <DayStyle />
           <DayStyle />
           <DayStyle />
-          <DayStyle>
-            <Event />
-          </DayStyle>
+          <DayStyle />
           <DayStyle />
         </WeekStyle>
       </>
@@ -46,7 +47,7 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: object) => {};
+const mapStateToProps = (state: RootState, ownProps: object) => selectWeekPresenter(state);
 
 const mapDispatchToProps = {
   medicationRequested: medicationRequested()
