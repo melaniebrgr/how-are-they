@@ -27,20 +27,17 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
 
   public render() {
     const { week } = this.props;
-    
     return (
       <>
         <SubtitleStyle>Medication</SubtitleStyle>
         <WeekStyle>
-          <DayStyle>
-            {week.monday.map((day: any) => (<Event {...day} />))}
-          </DayStyle>
-          <DayStyle />
-          <DayStyle />
-          <DayStyle />
-          <DayStyle />
-          <DayStyle />
-          <DayStyle />
+          {week.map((day: any, i: number) => {
+            return (
+              <DayStyle key={i}>
+                {day.map((obs: any) => (<Event key={obs.id} {...obs} />))}
+              </DayStyle>
+            );
+          })}
         </WeekStyle>
       </>
     );

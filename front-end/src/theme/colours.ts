@@ -1,7 +1,7 @@
 const colours = {
-  offWhiteLight: '#fcfcfc',
   offWhite: '#f9f9f9',
   darkGray: '#444444',
+  lightTeal: '#e4f3f3',
   teal: '#55c5c1'
 };
 

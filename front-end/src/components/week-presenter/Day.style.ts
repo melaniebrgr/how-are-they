@@ -8,7 +8,7 @@ const DayStyle = styled.div`
   flex-direction: column;
 
   &:nth-child(even) {
-    background-color: ${colours.offWhiteLight}
+    background-color: ${colours.lightTeal}
   }
 `;
 
