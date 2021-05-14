@@ -1,4 +1,6 @@
-export const healthController = (_: any, res: any) => {
+import { RequestHandler } from 'express';
+
+export const healthController: RequestHandler = (_, res) => {
   return res.json({
     ok: "OK"
   });
