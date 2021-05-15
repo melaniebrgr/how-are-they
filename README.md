@@ -10,3 +10,8 @@ The types of events (observations) that a caregiver might log are are listed in 
 ## Changes made
 
 - Using ramda required a typescript upgrade to a more recent version that included changes for checking of HOCs without running into [out-of-memory issues](https://github.com/microsoft/TypeScript/issues/30473). Accordinly, I got ramda working first in a .js file, and then migrated the files to .ts after completing the upgrade.
+
+
+## Improvements
+
+- Add stronger types for `createAsyncSequence`

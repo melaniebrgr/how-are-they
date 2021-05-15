@@ -1,10 +1,9 @@
 import { SagaIterator } from '@redux-saga/types';
 import { call, takeLatest } from 'redux-saga/effects';
-
-import { MEDICATION } from '@App/domains/medication/medication.actions.js';
+import { MEDICATION, MedicationRequestedAction } from '@App/domains/medication/medication.actions';
 import { medicationLoader } from '@App/domains/medication/medication.services';
 
-function* handleMedicationRequested(action: {}): SagaIterator {
+function* handleMedicationRequested(action: MedicationRequestedAction): SagaIterator {
   yield call(medicationLoader, action);
 }
 

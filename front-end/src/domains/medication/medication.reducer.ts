@@ -1,4 +1,4 @@
-import { medicationStatus } from '@App/domains/medication/medication.actions.js';
+import { medicationStatus } from '@App/domains/medication/medication.actions';
 
 const INITIAL_STATE = {
   requestStatus: '',

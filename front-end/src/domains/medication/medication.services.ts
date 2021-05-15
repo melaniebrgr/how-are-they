@@ -1,4 +1,4 @@
-import { createService, createAsyncSequence } from '@App/store/sagas/sagas.utils.js';
+import { createService, createAsyncSequence } from '@App/store/sagas/sagas.utils';
 import { RegularMedicationTakenAPI, Medication } from '@App/domains/medication/medication.types';
 
 // To enable mock data:
@@ -9,8 +9,8 @@ const getMedication = () => fetch('http://localhost:8000/medication') // disable
   .then(data => data.json())
   .then(data => data.data);
 
-const transformMedication = (observations: RegularMedicationTakenAPI[]): Medication[] =>
-  observations.map((data: RegularMedicationTakenAPI) => ({
+const transformMedication = (events: RegularMedicationTakenAPI[]): Medication[] =>
+  events.map((data) => ({
     id: data.id,
     type: 'taken',
     timestamp: data.timestamp,
@@ -18,6 +18,6 @@ const transformMedication = (observations: RegularMedicationTakenAPI[]): Medicat
     text: 'medication taken'
   }));
 
-const medicationService = createService(getMedication, transformMedication);
+const medicationService = createService<RegularMedicationTakenAPI[], Medication[]>(getMedication, transformMedication);
 
 export const medicationLoader = createAsyncSequence(medicationService);

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RootState } from '@App/store/reducers';
 import { connect } from 'react-redux';
 
-import { medicationRequested } from '@App/domains/medication/medication.actions.js';
+import { medicationRequested, MedicationRequestedAction } from '@App/domains/medication/medication.actions';
 import SubtitleStyle from '@App/components/common/Subtitle.style';
 import WeekStyle from '@App/components/week-presenter/Week.style';
 import DayStyle from '@App/components/week-presenter/Day.style';
@@ -11,7 +11,7 @@ import { selectWeekPresenter } from '@App/components/week-presenter/week-present
 
 import { Medication } from '@App/domains/medication/medication.types';
 interface WeekPresenterProps {
-  medicationRequested: typeof medicationRequested;
+  medicationRequested: () => MedicationRequestedAction;
   week: Medication[][];
   hasEvents: boolean;
 }
