@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { medicationRequested, MedicationRequestedAction } from '@App/domains/medication/medication.actions';
 import SubtitleStyle from '@App/components/common/Subtitle.style';
+import SectionTitle from '@App/components/common/SectionTitle.style';
 import WeekStyle from '@App/components/week-presenter/Week.style';
 import DayStyle from '@App/components/week-presenter/Day.style';
 import Event from '@App/components/week-presenter/event/Event';
@@ -12,8 +13,13 @@ import { selectWeekPresenter } from '@App/components/week-presenter/week-present
 import { Medication } from '@App/domains/medication/medication.types';
 interface WeekPresenterProps {
   medicationRequested: () => MedicationRequestedAction;
+  status: { 
+    pending: boolean,
+    succeeded: boolean,
+    errored: boolean,
+    cancelled: boolean
+  };
   week: Medication[][];
-  hasEvents: boolean;
 }
 
 interface WeekPresenterState {}
@@ -28,24 +34,23 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
   }
 
   public render() {
-    const { week, hasEvents } = this.props;
+    const { status, week } = this.props;
     return (
       <>
         <SubtitleStyle>Medication</SubtitleStyle>
-        {hasEvents
-          ? (<WeekStyle>
-              {week.map((day: Medication[], i: number) => {
-                return (
-                  <DayStyle key={i}>
-                    {day.map((medication: Medication) => (<Event key={medication.id} {...medication} />))}
-                  </DayStyle>
-                );
-              })}
-            </WeekStyle>)
-          : <p>No data in range.</p>
-
-        }
-
+        <SectionTitle>Week of Sunday, May 16 2021</SectionTitle>
+        {status.pending && <p>Loading data...</p>}
+        {(status.errored || status.cancelled) && <p>Something went wrong.</p>}
+        {status.succeeded &&
+          (<WeekStyle>
+            {week.map((day: Medication[], i: number) => {
+              return (
+                <DayStyle key={i}>
+                  {day.map((medication: Medication) => (<Event key={medication.id} {...medication} />))}
+                </DayStyle>
+              );
+            })}
+          </WeekStyle>)}
       </>
     );
   }

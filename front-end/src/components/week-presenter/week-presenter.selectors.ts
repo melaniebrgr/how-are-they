@@ -1,12 +1,22 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { adjust, append, filter, last, length, pathOr, pipe, range, reduce } from 'ramda';
+import { adjust, append, equals, filter, last, pathOr, range, reduce } from 'ramda';
 import { getDay, isSameWeek } from 'date-fns';
+import { STATUS } from '@App/store/actions/actions.constants';
 import { Medication } from '@App/domains/medication/medication.types';
 
-const selectMedicationEvents = pathOr([], ['medication', 'data']);
+const selectRequestStatus = createSelector(
+  pathOr('', ['medication', 'requestStatus']),
+  status => ({
+    initial: equals(STATUS.INITIAL, status),
+    pending: equals(STATUS.PENDING, status),
+    succeeded: equals(STATUS.SUCCESS, status),
+    errored: equals(STATUS.ERROR, status),
+    cancelled: equals(STATUS.CANCEL, status)
+  })
+);
 
-const selectMedicationEventsInRange = createSelector(
-  selectMedicationEvents,
+const selectEventsInDateRange = createSelector(
+  pathOr([], ['medication', 'data']),
   events => {
     const lastEvent = last(events);
     if (lastEvent) {
@@ -18,26 +28,18 @@ const selectMedicationEventsInRange = createSelector(
   }
 );
 
-const selectHasMedicationEventsInRange = createSelector(
-  selectMedicationEventsInRange,
-  pipe(
-    length,
-    Boolean
-  )
-);
-
 const groupEventsByDayOfWeek = (group: Medication[][], event: Medication) => {
   const date = new Date(event.timestamp);
   const dayOfWeek = getDay(date);
   return adjust(dayOfWeek, append(event), group);
 };
 
-const selectLastTenMedicationEvents = createSelector(
-  selectMedicationEventsInRange,
+const selectEventsGroupedByDayOfWeek = createSelector(
+  selectEventsInDateRange,
   reduce(groupEventsByDayOfWeek, range(0, 7).map(() => []))
 );
 
 export const selectWeekPresenter = createStructuredSelector({
-  week: selectLastTenMedicationEvents,
-  hasEvents: selectHasMedicationEventsInRange
+  status: selectRequestStatus,
+  week: selectEventsGroupedByDayOfWeek
 });

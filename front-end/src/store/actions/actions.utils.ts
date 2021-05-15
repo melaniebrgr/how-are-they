@@ -1,4 +1,4 @@
-import { REQUEST } from '@App/store/sagas/sagas.constants';
+import { REQUEST } from '@App/store/actions/actions.constants';
 
 export const createAsyncActionTypes = (type: string) => ({
   pending: `${type}: ${REQUEST.PENDING}`,
