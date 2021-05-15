@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { RootState } from '@App/store/reducers';
+import { RootState } from '@App/store/reducer';
 import { connect } from 'react-redux';
 
 import { medicationRequested, MedicationRequestedAction } from '@App/domains/medication/medication.actions';
-import SubtitleStyle from '@App/components/common/Subtitle.style';
-import SectionTitle from '@App/components/common/SectionTitle.style';
-import WeekStyle from '@App/components/week-presenter/Week.style';
-import DayStyle from '@App/components/week-presenter/Day.style';
-import DayTitle from '@App/components/week-presenter/DayTitle.style';
-import Event from '@App/components/week-presenter/event/Event';
-import { selectWeekPresenter } from '@App/components/week-presenter/week-presenter.selectors';
-import { daysOfTheWeek } from '@App/components/week-presenter/week-presenter.utils';
+import SubtitleStyle from '@App/common/Subtitle.style';
+import SectionTitle from '@App/common/SectionTitle.style';
+import WeekStyle from '@App/modules/week-presenter/Week.style';
+import DayStyle from '@App/modules/week-presenter/Day.style';
+import DayTitle from '@App/modules/week-presenter/DayTitle.style';
+import Event from '@App/modules/week-presenter/event/Event';
+import { selectWeekPresenter } from '@App/modules/week-presenter/week-presenter.selectors';
+import { daysOfTheWeek } from '@App/modules/week-presenter/week-presenter.utils';
 
 import { Medication } from '@App/domains/medication/medication.types';
 interface WeekPresenterProps {
