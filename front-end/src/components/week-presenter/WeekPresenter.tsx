@@ -7,8 +7,10 @@ import SubtitleStyle from '@App/components/common/Subtitle.style';
 import SectionTitle from '@App/components/common/SectionTitle.style';
 import WeekStyle from '@App/components/week-presenter/Week.style';
 import DayStyle from '@App/components/week-presenter/Day.style';
+import DayTitle from '@App/components/week-presenter/DayTitle.style';
 import Event from '@App/components/week-presenter/event/Event';
 import { selectWeekPresenter } from '@App/components/week-presenter/week-presenter.selectors';
+import { daysOfTheWeek } from '@App/components/week-presenter/week-presenter.utils';
 
 import { Medication } from '@App/domains/medication/medication.types';
 interface WeekPresenterProps {
@@ -47,7 +49,10 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
             {week.map((day: Medication[], i: number) => {
               return (
                 <DayStyle key={i}>
-                  {day.map((medication: Medication) => (<Event key={medication.id} {...medication} />))}
+                  <>
+                    <DayTitle>{daysOfTheWeek[i]}</DayTitle>
+                    {day.map((medication: Medication) => (<Event key={medication.id} {...medication} />))}
+                  </>
                 </DayStyle>
               );
             })}

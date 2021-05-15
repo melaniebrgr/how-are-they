@@ -17,14 +17,14 @@ const selectRequestStatus = createSelector(
 
 const selectEvents = pathOr([], ['medication', 'data']);
 
-const selectLastEvent = createSelector(
+const selectMostRecentEvent = createSelector(
   selectEvents,
   last
 );
 
 const selectEventsInDateRange = createSelector(
   selectEvents,
-  selectLastEvent,
+  selectMostRecentEvent,
   (events: Medication[], event1?: Medication) => {
     if (event1) {
       return filter((event2: Medication) => isSameWeek(new Date(event1.timestamp), new Date(event2.timestamp)), events);
@@ -46,7 +46,7 @@ const selectEventsGroupedByDayOfWeek = createSelector(
 );
 
 const selectWeekOfText = createSelector(
-  selectLastEvent,
+  selectMostRecentEvent,
   (event?: Medication) => {
     if (event) {
       const date = startOfWeek(new Date(event.timestamp));
