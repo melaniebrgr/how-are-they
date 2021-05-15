@@ -7,7 +7,7 @@ import SubtitleStyle from '@App/components/common/Subtitle.style';
 import WeekStyle from '@App/components/week-presenter/Week.style';
 import DayStyle from '@App/components/week-presenter/Day.style';
 import Event from '@App/components/week-presenter/event/Event';
-import { selectWeekPresenter } from '@App/components/week-presenter/week-presenter.selecters.js';
+import { selectWeekPresenter } from '@App/components/week-presenter/week-presenter.selectors';
 
 import { Medication } from '@App/domains/medication/medication.types';
 interface WeekPresenterProps {
