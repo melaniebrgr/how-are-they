@@ -1,7 +1,7 @@
 import { createService, createAsyncSequence } from '@App/store/sagas/sagas.utils';
 import { RegularMedicationTakenAPI, Medication } from '@App/domains/medication/medication.types';
 
-// To test with mock data:
+// To test with mock data, pass this loader (getMedicationMock) to createService:
 // import mockUser from '@App/domains/medication/medication.mock.json';
 // const getMedicationMock = () => Promise.resolve(mockUser);
 
