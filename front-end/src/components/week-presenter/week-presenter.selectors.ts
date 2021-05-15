@@ -1,6 +1,6 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 import { adjust, append, equals, filter, last, pathOr, range, reduce } from 'ramda';
-import { getDay, isSameWeek } from 'date-fns';
+import { format, getDay, isSameWeek, startOfWeek } from 'date-fns';
 import { STATUS } from '@App/store/actions/actions.constants';
 import { Medication } from '@App/domains/medication/medication.types';
 
@@ -15,12 +15,18 @@ const selectRequestStatus = createSelector(
   })
 );
 
+const selectEvents = pathOr([], ['medication', 'data']);
+
+const selectLastEvent = createSelector(
+  selectEvents,
+  last
+);
+
 const selectEventsInDateRange = createSelector(
-  pathOr([], ['medication', 'data']),
-  events => {
-    const lastEvent = last(events);
-    if (lastEvent) {
-      const event1: Medication = lastEvent;
+  selectEvents,
+  selectLastEvent,
+  (events: Medication[], event1?: Medication) => {
+    if (event1) {
       return filter((event2: Medication) => isSameWeek(new Date(event1.timestamp), new Date(event2.timestamp)), events);
     } else {
       return [];
@@ -39,7 +45,19 @@ const selectEventsGroupedByDayOfWeek = createSelector(
   reduce(groupEventsByDayOfWeek, range(0, 7).map(() => []))
 );
 
+const selectWeekOfText = createSelector(
+  selectLastEvent,
+  (event?: Medication) => {
+    if (event) {
+      const date = startOfWeek(new Date(event.timestamp));
+      return `Week of ${format(date, 'MMM d, y')}`;
+    }
+    return '';
+  }
+);
+
 export const selectWeekPresenter = createStructuredSelector({
   status: selectRequestStatus,
-  week: selectEventsGroupedByDayOfWeek
+  week: selectEventsGroupedByDayOfWeek,
+  sectionTitle: selectWeekOfText,
 });

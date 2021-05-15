@@ -20,6 +20,7 @@ interface WeekPresenterProps {
     cancelled: boolean
   };
   week: Medication[][];
+  sectionTitle: string;
 }
 
 interface WeekPresenterState {}
@@ -34,11 +35,11 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
   }
 
   public render() {
-    const { status, week } = this.props;
+    const { status, week, sectionTitle } = this.props;
     return (
       <>
         <SubtitleStyle>Medication</SubtitleStyle>
-        <SectionTitle>Week of Sunday, May 16 2021</SectionTitle>
+        <SectionTitle>{sectionTitle}</SectionTitle>
         {status.pending && <p>Loading data...</p>}
         {(status.errored || status.cancelled) && <p>Something went wrong.</p>}
         {status.succeeded &&
