@@ -1,5 +1,5 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { adjust, append, equals, filter, last, pathOr, range, reduce } from 'ramda';
+import { adjust, append, equals, filter, length, pathOr, pipe, range, reduce } from 'ramda';
 import { format, getDay, isSameWeek, startOfWeek } from 'date-fns';
 import { STATUS } from '@App/store/actions/actions.constants';
 import { Medication } from '@App/domains/medication/medication.types';
@@ -17,21 +17,21 @@ const selectRequestStatus = createSelector(
 
 const selectEvents = pathOr([], ['medication', 'data']);
 
-const selectMostRecentEvent = createSelector(
+const selectWeek = pathOr(startOfWeek(new Date()), ['weekPresenter', 'week']);
+
+const selectEventsInWeek = createSelector(
   selectEvents,
-  last
+  selectWeek,
+  (events: Medication[], week: Date) =>
+    filter((event: Medication) => isSameWeek(new Date(week), new Date(event.timestamp)), events)
 );
 
-const selectEventsInDateRange = createSelector(
-  selectEvents,
-  selectMostRecentEvent,
-  (events: Medication[], event1?: Medication) => {
-    if (event1) {
-      return filter((event2: Medication) => isSameWeek(new Date(event1.timestamp), new Date(event2.timestamp)), events);
-    } else {
-      return [];
-    }
-  }
+const selectHasEventsInWeek = createSelector(
+  selectEventsInWeek,
+  pipe(
+    length,
+    Boolean
+  )
 );
 
 const groupEventsByDayOfWeek = (group: Medication[][], event: Medication) => {
@@ -41,23 +41,19 @@ const groupEventsByDayOfWeek = (group: Medication[][], event: Medication) => {
 };
 
 const selectEventsGroupedByDayOfWeek = createSelector(
-  selectEventsInDateRange,
+  selectEventsInWeek,
   reduce(groupEventsByDayOfWeek, range(0, 7).map(() => []))
 );
 
 const selectWeekOfText = createSelector(
-  selectMostRecentEvent,
-  (event?: Medication) => {
-    if (event) {
-      const date = startOfWeek(new Date(event.timestamp));
-      return `Week of ${format(date, 'MMM d, y')}`;
-    }
-    return '';
-  }
+  selectWeek,
+  (week: Date) =>
+    `Week of ${format(week, 'MMM d, y')}`
 );
 
 export const selectWeekPresenter = createStructuredSelector({
   status: selectRequestStatus,
   week: selectEventsGroupedByDayOfWeek,
+  weekHasEvents: selectHasEventsInWeek,
   sectionTitle: selectWeekOfText,
 });

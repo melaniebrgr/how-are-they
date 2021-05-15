@@ -1,20 +1,23 @@
 import * as React from 'react';
-import { RootState } from '@App/store/reducer';
 import { connect } from 'react-redux';
 
 import { medicationRequested, MedicationRequestedAction } from '@App/domains/medication/medication.actions';
+import { prevWeekRequested, nextWeekRequested, WeekRequestedAction } from '@App/modules/week-presenter/week-presenter.actions';
+import { selectWeekPresenter } from '@App/modules/week-presenter/week-presenter.selectors';
+import { daysOfTheWeek } from '@App/modules/week-presenter/week-presenter.utils';
 import SubtitleStyle from '@App/common/Subtitle.style';
-import SectionTitle from '@App/common/SectionTitle.style';
+import Button from '@App/common/Button.style';
+import SectionTitle from '@App/modules/week-presenter/SectionTitle.style';
 import WeekStyle from '@App/modules/week-presenter/Week.style';
 import DayStyle from '@App/modules/week-presenter/Day.style';
 import DayTitle from '@App/modules/week-presenter/DayTitle.style';
 import Event from '@App/modules/week-presenter/event/Event';
-import { selectWeekPresenter } from '@App/modules/week-presenter/week-presenter.selectors';
-import { daysOfTheWeek } from '@App/modules/week-presenter/week-presenter.utils';
 
 import { Medication } from '@App/domains/medication/medication.types';
 interface WeekPresenterProps {
-  medicationRequested: () => MedicationRequestedAction;
+  handleMedicationRequested: () => MedicationRequestedAction;
+  handlePrevWeekRequested: () => WeekRequestedAction;
+  handleNextWeekRequested: () => WeekRequestedAction;
   status: { 
     pending: boolean,
     succeeded: boolean,
@@ -22,6 +25,7 @@ interface WeekPresenterProps {
     cancelled: boolean
   };
   week: Medication[][];
+  weekHasEvents: boolean;
   sectionTitle: string;
 }
 
@@ -33,18 +37,22 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
   }
 
   componentDidMount() {
-    this.props.medicationRequested();
+    this.props.handleMedicationRequested();
   }
 
   public render() {
-    const { status, week, sectionTitle } = this.props;
+    const { handlePrevWeekRequested, handleNextWeekRequested, status, week, weekHasEvents, sectionTitle } = this.props;
     return (
       <>
-        <SubtitleStyle>Medication</SubtitleStyle>
-        <SectionTitle>{sectionTitle}</SectionTitle>
+        <header>
+          <SubtitleStyle>Medication</SubtitleStyle>
+          <Button onClick={handlePrevWeekRequested}>Previous week</Button>
+          <SectionTitle>{sectionTitle}</SectionTitle>
+          <Button onClick={handleNextWeekRequested}>Next week</Button>
+        </header>
         {status.pending && <p>Loading data...</p>}
         {(status.errored || status.cancelled) && <p>Something went wrong.</p>}
-        {status.succeeded &&
+        {(status.succeeded && weekHasEvents) &&
           (<WeekStyle>
             {week.map((day: Medication[], i: number) => {
               return (
@@ -57,15 +65,16 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
               );
             })}
           </WeekStyle>)}
+        {(status.succeeded && !weekHasEvents) && <p>No medication taken this week.</p>}
       </>
     );
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: object) => selectWeekPresenter(state);
-
 const mapDispatchToProps = {
-  medicationRequested: medicationRequested()
+  handleMedicationRequested: medicationRequested(),
+  handlePrevWeekRequested: prevWeekRequested(),
+  handleNextWeekRequested: nextWeekRequested(),
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WeekPresenter);
+export default connect(selectWeekPresenter, mapDispatchToProps)(WeekPresenter);

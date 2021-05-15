@@ -14,4 +14,5 @@ The types of events (observations) that a caregiver might log are are listed in 
 
 ## Improvements
 
+- Create a users endpoint that returns a list of users and displays them in a `<select>` input in the UI. On selection fetch the data for that user.
 - Add stronger types for `createAsyncSequence`
