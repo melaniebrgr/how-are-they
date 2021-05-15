@@ -3,18 +3,16 @@ import { RequestHandler } from 'express';
 import database from "../../database";
 import { RegularMedicationTakenAPI } from "./medication.types";
 
-export const get: RequestHandler = (_, res, next) => {
-  database
-    .raw(`
-      select * from events
-      where care_recipient_id='df50cac5-293c-490d-a06c-ee26796f850d'
-      and event_type='regular_medication_taken'
-      order by timestamp asc;
-    `)
+export const get: RequestHandler = (req, res, next) => {
+  database('events')
+    .where({
+      care_recipient_id: req.params.id,
+      event_type: 'regular_medication_taken'
+    })
+    .orderBy('timestamp')
+    .select()
     .then((data: RegularMedicationTakenAPI[][]) => {
-      return res.json({
-        data: data[0]
-      });
+      return res.json(data);
     })
     .catch((error: Error) => next(error));
 };

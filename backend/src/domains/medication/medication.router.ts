@@ -4,4 +4,4 @@ import medicationController from "./medication.controller"
 
 export const medicationRouter = express.Router();
 
-medicationRouter.get("", medicationController.get);
+medicationRouter.get("/:id", medicationController.get);
