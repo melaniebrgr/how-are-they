@@ -1,8 +1,13 @@
-import mockUser from '@App/domains/medication/medication.mock.json';
 import { createService, createAsyncSequence } from '@App/store/sagas/sagas.utils.js';
 import { RegularMedicationTakenAPI, Medication } from '@App/domains/medication/medication.types';
 
-const getMedication = () => Promise.resolve(mockUser);
+// To enable mock data:
+// import mockUser from '@App/domains/medication/medication.mock.json';
+// const getMedicationMock = () => Promise.resolve(mockUser);
+
+const getMedication = () => fetch('http://localhost:8000/medication') // disable CORS in your browser
+  .then(data => data.json())
+  .then(data => data.data);
 
 const transformMedication = (observations: RegularMedicationTakenAPI[]): Medication[] =>
   observations.map((data: RegularMedicationTakenAPI) => ({
@@ -10,7 +15,7 @@ const transformMedication = (observations: RegularMedicationTakenAPI[]): Medicat
     type: 'taken',
     timestamp: data.timestamp,
     caregiverId: data.caregiver_id,
-    note: ''
+    text: 'medication taken'
   }));
 
 const medicationService = createService(getMedication, transformMedication);

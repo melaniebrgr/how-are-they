@@ -6,12 +6,14 @@ const EventStyle = styled.div`
   border: 1px solid;
   border-radius: 6px;
   border-color: ${colours.midTeal};
-  margin: 5px;
+  margin: 3px 10px 3px 10px;
   padding: 5px;
   font-family: sans-serif;
-  
-  &: hover {
-    background-color: ${colours.lightTeal};
+  &:first-child {
+    margin: 6px 10px 3px 10px;
+  }
+  &:last-child {
+    margin: 3px 10px 6px 10px;
   }
 `;
 

@@ -2,7 +2,7 @@ import { medicationStatus } from '@App/domains/medication/medication.actions.js'
 
 const INITIAL_STATE = {
   requestStatus: '',
-  data: {}
+  data: []
 };
 
 const medicationReducer = (state = INITIAL_STATE, { type, payload }: any) => {

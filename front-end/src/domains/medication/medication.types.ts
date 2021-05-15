@@ -20,5 +20,5 @@ export interface Medication {
   type: 'taken';
   timestamp: string;
   caregiverId: string;
-  note: string;
+  text: string;
 }

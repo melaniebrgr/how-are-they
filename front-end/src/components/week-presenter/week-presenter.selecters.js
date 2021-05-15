@@ -1,12 +1,18 @@
 import { createSelector, createStructuredSelector } from 'reselect';
-import { adjust, append, length, pathOr, pipe, range, reduce, takeLast } from 'ramda';
-import { getDay } from 'date-fns'
+import { adjust, append, filter, last, length, pathOr, pipe, range, reduce } from 'ramda';
+import { getDay, isSameWeek } from 'date-fns'
 
 const selectMedicationEvents = pathOr([], ['medication', 'data']);
 
 const selectMedicationEventsInRange = createSelector(
   selectMedicationEvents,
-  takeLast(10) // TODO: get by week
+  events => {
+    const event1 = last(events);
+    if (!event1) return [];
+    return filter(event2 => 
+      isSameWeek(new Date(event1.timestamp), new Date(event2.timestamp)
+    ), events);
+  }
 );
 
 const selectHasMedicationEventsInRange = createSelector(

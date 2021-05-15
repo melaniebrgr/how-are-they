@@ -4,11 +4,10 @@ import { format } from 'date-fns';
 import EventStyle from '@App/components/week-presenter/event/Event.style';
 import { Medication } from '@App/domains/medication/medication.types';
 
-const Event = (props: Medication) => {
+const Event = ({ text, timestamp }: Medication) => {
   return (
     <EventStyle>
-      <span>✅</span>
-      <span>{`Taken at ${format(new Date(props.timestamp), 'MM/dd/yyyy')}`}</span>
+      {`✅ ${format(new Date(timestamp), 'H:mm')} ${text}`}
     </EventStyle>
   );
 };
