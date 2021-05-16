@@ -4,8 +4,8 @@ import { format } from 'date-fns';
 import EventStyle from '@App/modules/week-presenter/event/Event.style';
 
 interface Props {
-  text: string,
-  timestamp: string
+  text: string;
+  timestamp: string;
 }
 
 const Event = ({ text, timestamp }: Props) => {
