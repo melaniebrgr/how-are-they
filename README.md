@@ -26,3 +26,7 @@ Here's what I would like to have done additionally:
 ## Preview
 
 ![preview](./assets/preview.png)
+
+[link to recording](https://user-images.githubusercontent.com/3966076/118390223-3b9fa080-b62e-11eb-94c1-5e65bd4a95b7.mov)
+
+
