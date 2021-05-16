@@ -59,7 +59,7 @@ class WeekPresenter extends React.Component<WeekPresenterProps, WeekPresenterSta
                 <DayStyle key={i}>
                   <>
                     <DayTitle>{daysOfTheWeek[i]}</DayTitle>
-                    {day.map((medication: Medication) => (<Event key={medication.id} {...medication} />))}
+                    {day.map(({ id, text, timestamp }: Medication) => (<Event key={id} text={text} timestamp={timestamp} />))}
                   </>
                 </DayStyle>
               );
