@@ -22,3 +22,7 @@ Here's what I would like to have done additionally:
 - Fetched `no_medication_observation_received` events as well and displayed in the app.
 - Added stronger types for `createAsyncSequence`.
 - Added e2e test coverage, ideally "core" user flows are covered by an e2e test.
+
+## Preview
+
+![preview](./assets/preview.png)
