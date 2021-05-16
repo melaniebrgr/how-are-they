@@ -17,8 +17,8 @@ The types of events that a caregiver might log are are listed in the EVENT_TYPES
 
 Here's what I would like to have done additionally:
 
+- Improved unit test coverage, ideally any component or utility that contains logic is covered by a unit test. I ran into an [issue with ramda](https://github.com/ramda/ramda/issues/2406) adding selector unit tests that I was not able to resolve within a timebox of 30 minutes. Normally selectors and reducers would be the first place I would add tests.
 - Created a users endpoint returning a list of users for display in a `<select>` input. On selection, data for that user is fetched.
 - Fetched `no_medication_observation_received` events as well and displayed in the app.
 - Added stronger types for `createAsyncSequence`.
-- Improved unit test coverage, ideally any component or utility that contains logic is covered by a unit test.
 - Added e2e test coverage, ideally "core" user flows are covered by an e2e test.
